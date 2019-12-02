@@ -863,11 +863,16 @@ void	LowPowerClass::adcNoiseReduction(period_t period, adc_t adc,
 void	LowPowerClass::powerDown(period_t period, adc_t adc, bod_t bod)
 {
 	if (adc == ADC_OFF)	ADCSRA &= ~(1 << ADEN);
+	
 
 	if (period != SLEEP_FOREVER)
 	{
 		wdt_enable(period);
 		WDTCSR |= (1 << WDIE);
+	}
+	else
+	{
+		wdt_disable();
 	}
 	if (bod == BOD_OFF)
 	{
